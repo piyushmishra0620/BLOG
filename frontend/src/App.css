@@ -1,1 +1,13 @@
 @import 'tailwindcss';
+
+@theme{
+    --color-auth-left:#102C36;
+    --color-auth-right:#1A2D32;
+    --color-white/1:rgba(255,255,255,0.01);
+    --shadow-auth: -1px 2.3px 6px 0px  rgba(20,20,20);
+    --breakpoint-700w:43.75rem;
+    --breakpoint-600w:37.5rem;
+    --breakpoint-500w:31.25rem;
+    --breakpoint-400w:25rem;
+    --breakpoint-330w:21rem;
+}
