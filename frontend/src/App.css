@@ -3,8 +3,15 @@
 @theme{
     --color-auth-left:#102C36;
     --color-auth-right:#1A2D32;
-    --color-white/1:rgba(255,255,255,0.01);
+    --color-white1:rgba(255,255,255,0.035);
+    --color-gradient1:#00E1A6;
+    --color-gradient3:#00C7D4;
+    --color-gradient2:#008CC7;
+    --color-p1:#9ADADB;
+    --color-p3:#388DF8;
+    --color-p2:#0284C7;
     --shadow-auth: -1px 2.3px 6px 0px  rgba(20,20,20);
+    --shadow-button: -0.9px 0.5px 6px 0px rgba(30,30,30);
     --breakpoint-700w:43.75rem;
     --breakpoint-600w:37.5rem;
     --breakpoint-500w:31.25rem;
