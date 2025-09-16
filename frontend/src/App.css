@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+
 @theme{
     --color-auth-left:#102C36;
     --color-auth-right:#1A2D32;
@@ -16,4 +17,13 @@
     --breakpoint-500w:31.25rem;
     --breakpoint-400w:25rem;
     --breakpoint-330w:21rem;
+    --animate-click: click 0.25s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    @keyframes click{
+        100%{
+            color:black;
+            font:600px;
+            font-size:16px;
+            transform:scale(0.975);
+        }
+    }
 }
