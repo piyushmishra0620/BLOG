@@ -1,6 +1,13 @@
 @import 'tailwindcss';
 
+.scale-175{
+    transform:scale(1.095);
+}
+
 @theme{
+    --color-gradient-1:#040A0D;
+    --color-gradient-2:#071418;
+    --color-gradient-3:#09171B;
     --color-auth-left:#102C36;
     --color-auth-right:#1A2D32;
     --color-white1:rgba(255,255,255,0.035);
