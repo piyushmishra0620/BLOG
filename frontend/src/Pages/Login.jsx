@@ -1,7 +1,15 @@
 import { useRef } from 'react';
+import {gsap} from 'gsap';
+import {useGSAP} from '@gsap/react';
 
 const Login = () => {
     const buttonref = useRef();
+    const formref = useRef();
+
+    useGSAP(()=>{
+        const tl = gsap.timeline();
+        tl.fromTo(formref.current,{scale:0},{scale:1,ease:"bounce.out",duration:0.5});
+    });
     function clickHandler(e) {
         e.preventDefault();
         buttonref.current.classList.remove('text-white');
@@ -15,7 +23,7 @@ const Login = () => {
                 <div className="bg-radial-[at_0%_0%] from-0% from-[rgba(26,181,217,0.35)] via-40% via-[rgba(12,58,69,0.15)] to-80% to-[rgba(7,20,24,0)]  rounded-full p-70 blur-[50px]"></div>
             </div>
             <div className="w-screen h-screen flex justify-center items-center">
-                <div className="bg-white1 backdrop-blur-[40px] rounded-[10px] p-[40px] max-500w:p-[27px] max-400w:p-[18px] max-330w:p-[12px] border-1 border-white/20 shadow-auth">
+                <div ref={formref} className=" bg-white1 backdrop-blur-[40px] rounded-[10px] p-[40px] max-500w:p-[27px] max-400w:p-[18px] max-330w:p-[12px] border-1 border-white/20 shadow-auth">
                     <form className="flex flex-col w-[470px] max-700w:w-[430px] max-600w:w-[370px] max-500w:w-[335px] max-400w:w-[280px] max-330w:w-[220px] z-2">
                         <label htmlFor="emailid" className="text-white font-semibold text-[17.5px] w-fit h-fit justify-self-start mb-2 cursor-pointer z-10 pointer-events-auto">Email-Id : </label>
                         <input id="emailid" type="email" className="text-white rounded-[15px] border-1 border-white/20 shadow-button p-[10px] w-full z-10 pointer-events-auto" placeholder="Enter the email..." /><br />
