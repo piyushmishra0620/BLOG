@@ -10,6 +10,7 @@ const Login = () => {
         const tl = gsap.timeline();
         tl.fromTo(formref.current,{scale:0},{scale:1,ease:"bounce.out",duration:0.5});
     });
+    
     function clickHandler(e) {
         e.preventDefault();
         buttonref.current.classList.remove('text-white');

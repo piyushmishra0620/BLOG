@@ -2,10 +2,12 @@ import { useRef } from 'react';
 import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
 import { SplitText } from 'gsap/SplitText';
+import {useNavigate} from 'react-router-dom';
 
 gsap.registerPlugin(SplitText);
 
 const Auth = () => {
+    const navigate = useNavigate();
     const button1Ref = useRef();
     const button2Ref = useRef();
     const headingRef = useRef();
@@ -15,10 +17,10 @@ const Auth = () => {
 
 
     useGSAP(() => {
-        let headings = new SplitText(headingRef.current, {
+        let headings = SplitText.create(headingRef.current, {
             type: "chars"
         });
-        let paragraphs = new SplitText(paragraphRef.current, {
+        let paragraphs = SplitText.create(paragraphRef.current, {
             type: "chars"
         });
         headings.chars.forEach(char => {
@@ -45,12 +47,14 @@ const Auth = () => {
         button1Ref.current.classList.remove('text-white');
         button1Ref.current.classList.add('bg-cyan-300');
         button1Ref.current.classList.add('text-black');
+        setTimeout(()=>navigate("/Signup"),200);
     }
 
     function handleButton2Click() {
         button2Ref.current.classList.remove('text-white');
         button2Ref.current.classList.add('bg-cyan-300');
         button2Ref.current.classList.add('text-black');
+        setTimeout(()=>navigate("/Login"),200);
     }
 
     return (
