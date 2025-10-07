@@ -1,16 +1,26 @@
-import { useRef } from 'react';
+import { useRef,useState } from 'react';
 import {gsap} from 'gsap';
 import {useGSAP} from '@gsap/react';
+import {useNavigate} from 'react-router-dom';
+import {loginSchema} from '../Schemas/loginSchema';
+import {zodResolver} from '@hookform/resolvers/zod';
+import {useForm} from 'react-hook-form';
 
 const Login = () => {
+
+    const {register,handleSubmit,formState:{errors}}=useForm({resolver:zodResolver(loginSchema),mode:"all"});
+    const navigate = useNavigate();
     const buttonref = useRef();
     const formref = useRef();
+    const input1ref = useRef();
+    const input2ref = useRef();
 
     useGSAP(()=>{
         const tl = gsap.timeline();
         tl.fromTo(formref.current,{scale:0},{scale:1,ease:"bounce.out",duration:0.5});
     });
     
+
     function clickHandler(e) {
         e.preventDefault();
         buttonref.current.classList.remove('text-white');
@@ -25,12 +35,16 @@ const Login = () => {
             </div>
             <div className="w-screen h-screen flex justify-center items-center">
                 <div ref={formref} className=" bg-white1 backdrop-blur-[40px] rounded-[10px] p-[40px] max-500w:p-[27px] max-400w:p-[18px] max-330w:p-[12px] border-1 border-white/20 shadow-auth">
-                    <form className="flex flex-col w-[470px] max-700w:w-[430px] max-600w:w-[370px] max-500w:w-[335px] max-400w:w-[280px] max-330w:w-[220px] z-2">
+                    <form className="flex flex-col w-[470px] max-700w:w-[430px] max-600w:w-[370px] max-500w:w-[335px] max-400w:w-[280px] max-330w:w-[220px] z-2" onSubmit={handleSubmit(clickHandler)}>
                         <label htmlFor="emailid" className="text-white font-semibold text-[17.5px] w-fit h-fit justify-self-start mb-2 cursor-pointer z-10 pointer-events-auto">Email-Id : </label>
-                        <input id="emailid" type="email" className="text-white rounded-[15px] border-1 border-white/20 shadow-button p-[10px] w-full z-10 pointer-events-auto" placeholder="Enter the email..." /><br />
+                        <input ref={input1ref} {...register("email")} id="emailid" type="email" className="text-white rounded-[15px] border-1 border-white/20 shadow-button p-[10px] w-full z-10 pointer-events-auto" placeholder="Enter the email..." />
+                        {errors.email && (<p className="text-red-700 font-semibold">{errors.email.message}</p>)}
+                        <br/>
                         <label htmlFor="password" className="text-white font-semibold text-[17.5px] w-fit h-fit justify-self-start mb-2 cursor-pointer z-10 pointer-events-auto">Password : </label>
-                        <input id="password" type="password" className="text-white rounded-[15px] border-1 border-white/20 shadow-button p-[10px] w-full z-10 pointer-events-auto" placeholder="Enter the password..." /><br />
-                        <button ref={buttonref} className="text-white text-1xl font-sans font-semibold py-4 w-full rounded-[15px] mt-10 border-1 border-white/20 cursor-pointer shadow-button hover:bg-cyan-300 hover:text-black hover:font-semibold hover:text-1xl hover:font-sans hover:-translate-y-1 hover:shadow-cyan-400 hover:shadow-sm active:animate-click active:bg-cyan-300 duration-200 ease-in-out z-10 pointer-events-auto" onClick={clickHandler} >Login</button>
+                        <input ref={input2ref} {...register("password")} id="password" type="password" className="text-white rounded-[15px] border-1 border-white/20 shadow-button p-[10px] w-full z-10 pointer-events-auto" placeholder="Enter the password..." />
+                        {errors.password && <p className="text-red-700 font-semibold">{errors.password.message}</p>}
+                        <br/>
+                        <button ref={buttonref} type="submit" className="text-white text-1xl font-sans font-semibold py-4 w-full rounded-[15px] mt-10 border-1 border-white/20 cursor-pointer shadow-button hover:bg-cyan-300 hover:text-black hover:font-semibold hover:text-1xl hover:font-sans hover:-translate-y-1 hover:shadow-cyan-400 hover:shadow-sm active:animate-click active:bg-cyan-300 duration-200 ease-in-out z-10 pointer-events-auto" >Login</button>
                     </form>
                     <div className="absolute top-0 flex w-full h-fit justify-end">
                         <div className="bg-radial-[at_20%_50%] from-cyan-200 from-5% via-cyan-500 via-45% to-cyan-950 to-100% scale-175 p-12 rounded-full blur-[50px] 500w:p-10"></div>

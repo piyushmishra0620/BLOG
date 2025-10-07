@@ -1,22 +1,53 @@
-import { useRef } from 'react';
-import {useGSAP} from '@gsap/react';
-import {gsap} from 'gsap';
-
+import { useRef,useState } from 'react';
+import { useGSAP } from '@gsap/react';
+import { gsap } from 'gsap';
+import { useNavigate } from 'react-router-dom';
+import { signupSchema } from '../Schemas/signupSchema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 
 const Signup = () => {
-    const formref= useRef();
+    const [emailerror,setemailerror] = useState(false);
+    const [passworderror,setpassworderror] = useState(false);
+    const [namerror,setnamerror] = useState(false);
+    const { register, handleSubmit, formState: { errors } } = useForm({ resolver: zodResolver(signupSchema),mode:"all" });
+    const navigate = useNavigate();
+    const input1ref = useRef();
+    const input2ref = useRef();
+    const input3ref = useRef();
+    const formref = useRef();
     const buttonref = useRef();
-    useGSAP(()=>{
-        const tl=gsap.timeline();
-        tl.fromTo(formref.current,{scale:0},{scale:1,ease:"bounce.out",duration:0.5});
+
+    useGSAP(() => {
+        const tl = gsap.timeline();
+        tl.fromTo(formref.current, { scale: 0 }, { scale: 1, ease: "bounce.out", duration: 0.5 });
     });
+
+    function liveValidation(){
+        if(errors.name){
+            setnamerror(true);
+        }else{
+            setnamerror(false);
+        }
+        if(errors.email){
+            setemailerror(true);
+        }else{
+            setemailerror(false);
+        }
+        if(errors.password){
+            setpassworderror(true);
+        }else{
+            setpassworderror(false);
+        }
+    }
+
     function clickHandler(e) {
         e.preventDefault();
         buttonref.current.classList.remove('text-white');
         buttonref.current.classList.add('bg-cyan-300');
         buttonref.current.classList.add('text-black');
     }
-    
+
     return (
         <div className="min-w-screen min-h-screen bg-linear-120 from-10% from-auth-left via-30% via-auth-right to-auth-left overflow-hidden">
             <div className="absolute top-0 left-0 max-500w:hidden w-screen min-h-fit  flex justify-start">
@@ -24,14 +55,20 @@ const Signup = () => {
             </div>
             <div className="w-screen h-screen flex justify-center items-center">
                 <div ref={formref} className="bg-white1 backdrop-blur-[40px] rounded-[10px] p-[40px] max-500w:p-[27px] max-400w:p-[18px] max-330w:p-[12px] border-1 border-white/20 shadow-auth">
-                    <form  className="flex flex-col w-[470px] max-700w:w-[430px] max-600w:w-[370px] max-500w:w-[335px] max-400w:w-[280px] max-330w:w-[220px] z-2">
+                    <form className="flex flex-col w-[470px] max-700w:w-[430px] max-600w:w-[370px] max-500w:w-[335px] max-400w:w-[280px] max-330w:w-[220px] z-2" onSubmit={handleSubmit(clickHandler)}>
                         <label htmlFor="username" className="text-white font-semibold text-[17.5px] w-fit h-fit justify-self-start mb-2 cursor-pointer z-10 pointer-events-auto">UserName : </label>
-                        <input id="username" type="text" className="text-white rounded-[15px] border-1 border-white/20 shadow-button p-[10px] w-full z-10 pointer-events-auto" placeholder="Enter the user-name..." /><br />
+                        <input ref={input1ref} {...register("name",{required:"username is required"})} id="username" type="text" className={(errors.name)?"text-white rounded-[15px] border-1 shadow-button p-[10px] w-full z-10 pointer-events-auto border-red-600":(!namerror)?"text-white rounded-[15px] border-1 shadow-button p-[10px] w-full z-10 pointer-events-auto border-green-400":"text-white rounded-[15px] border-1 shadow-button p-[10px] w-full z-10 pointer-events-auto border-white/20"} placeholder="Enter the user-name..." onBlur={liveValidation}/>
+                        {errors.name && namerror && (<p className="text-red-700 font-bold mt-2">{errors.name.message}</p>)}
+                        <br />
                         <label htmlFor="emailid" className="text-white font-semibold text-[17.5px] w-fit h-fit justify-self-start mb-2 cursor-pointer z-10 pointer-events-auto">Email-Id : </label>
-                        <input id="emailid" type="email" className="text-white rounded-[15px] border-1 border-white/20 shadow-button p-[10px] w-full z-10 pointer-events-auto" placeholder="Enter the email..." /><br />
+                        <input ref={input2ref} {...register("email",{required:"E-mail is required."})} id="emailid" type="email" className={(errors.email)?"text-white rounded-[15px] border-1 border-red-600 shadow-button p-[10px] w-full z-10 pointer-events-auto":(!emailerror)?"text-white rounded-[15px] border-1 border-green-400 shadow-button p-[10px] w-full z-10 pointer-events-auto":"text-white rounded-[15px] border-1 border-white/20 shadow-button p-[10px] w-full z-10 pointer-events-auto"} placeholder="Enter the email..." onBlur={liveValidation}/>
+                        {errors.email && emailerror && (<p className="text-red-700 font-bold mt-2">{errors.email.message}</p>)}
+                        <br />
                         <label htmlFor="password" className="text-white font-semibold text-[17.5px] w-fit h-fit justify-self-start mb-2 cursor-pointer z-10 pointer-events-auto">Password : </label>
-                        <input id="password" type="password" className="text-white rounded-[15px] border-1 border-white/20 shadow-button p-[10px] w-full z-10 pointer-events-auto" placeholder="Enter the password..." /><br />
-                        <button ref={buttonref} className="text-white text-1xl font-sans font-semibold py-4 w-full rounded-[15px] mt-10 border-1 border-white/20 cursor-pointer shadow-button hover:bg-cyan-300 hover:text-black hover:font-semibold hover:text-1xl hover:font-sans hover:-translate-y-1 hover:shadow-cyan-400 hover:shadow-sm active:animate-click active:bg-cyan-300 duration-200 ease-in-out z-10 pointer-events-auto" onClick={clickHandler}>SignUp</button>
+                        <input ref={input3ref} {...register("password",{required:"Password is required."})} id="password" type="password" className={(errors.password)?"text-white rounded-[15px] border-1 border-red-600 shadow-button p-[10px] w-full z-10 pointer-events-auto":(!passworderror)?"text-white rounded-[15px] border-1 border-green-400 shadow-button p-[10px] w-full z-10 pointer-events-auto":"text-white rounded-[15px] border-1 border-white/20 shadow-button p-[10px] w-full z-10 pointer-events-auto"} placeholder="Enter the password..." onBlur={liveValidation}/>
+                        {errors.password && passworderror && (<p className="text-red-700 font-bold mt-2">{errors.password.message}</p>)}
+                        <br />
+                        <button ref={buttonref} type="submit" className="text-white text-1xl font-sans font-semibold py-4 w-full rounded-[15px] mt-10 border-1 border-white/20 cursor-pointer shadow-button hover:bg-cyan-300 hover:text-black hover:font-semibold hover:text-1xl hover:font-sans hover:-translate-y-1 hover:shadow-cyan-400 hover:shadow-sm active:animate-click active:bg-cyan-300 duration-200 ease-in-out z-10 pointer-events-auto">SignUp</button>
                     </form>
                     <div className="absolute top-0 flex w-full h-fit justify-end">
                         <div className="bg-radial-[at_20%_50%] from-cyan-200 from-5% via-cyan-500 via-45% to-cyan-950 to-100% scale-175 p-12 rounded-full blur-[50px] 500w:p-10"></div>

@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
+    "@hookform/resolvers": "^5.2.2",
     "@tailwindcss/vite": "^4.1.13",
     "dotenv": "^17.2.3",
     "framer-motion": "^12.23.12",
@@ -19,6 +20,7 @@
     "lucide-react": "^0.544.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-hook-form": "^7.64.0",
     "react-router-dom": "^7.9.3",
     "tailwindcss": "^4.1.13",
     "zod": "^4.1.11"
