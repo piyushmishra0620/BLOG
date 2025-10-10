@@ -1,4 +1,4 @@
 import {useContext} from 'react';
-import BlogContext from '../contexts/blogContext';
+import BlogContext from '../Contexts/blogContext';
 
 export const useBlog = ()=>useContext(BlogContext);
