@@ -16,7 +16,6 @@ const landing = () => {
                              <div className="bg-radial-[at_0%_0%] from-0% from-[rgba(26,181,217,0.35)] via-40% via-[rgba(12,58,69,0.15)] to-80% to-[rgba(7,20,24,0)] rounded-full p-100 blur-[50px]"></div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </>
