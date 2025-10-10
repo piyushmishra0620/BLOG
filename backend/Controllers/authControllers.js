@@ -36,6 +36,7 @@ const signup = async (req, res) => {
             expires: new Date(Date.now() + 12 * 365 * 24 * 60 * 60),
             secure: process.env.NODE_ENV === "production"
         });
+        return res.status(200).json({message:"User signup successfully."});
     } catch (err) {
         console.error(err);
         return res.status(500).json({ error: "Internal server error." });

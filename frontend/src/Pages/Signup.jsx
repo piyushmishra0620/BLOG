@@ -6,6 +6,7 @@ import { signupSchema } from '../Schemas/signupSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import {motion,AnimatePresence} from 'framer-motion';
+import {useAuth} from '../Hooks/useAuth';
 
 const Signup = () => {
     const [namecorrect, setnamecorrect] = useState(false);
@@ -21,6 +22,7 @@ const Signup = () => {
     const input3ref = useRef();
     const formref = useRef();
     const buttonref = useRef();
+    const {signup} = useAuth();
 
     useGSAP(() => {
         const tl = gsap.timeline();
@@ -68,7 +70,7 @@ const Signup = () => {
         }
     }
 
-    function clickHandler(e) {
+    async function clickHandler(e) {
         e.preventDefault();
         setnamerror(false);
         setemailerror(false);
@@ -76,7 +78,15 @@ const Signup = () => {
         buttonref.current.classList.remove('text-white');
         buttonref.current.classList.add('bg-cyan-300');
         buttonref.current.classList.add('text-black');
-        navigate("/Home");
+        try{
+            const res = await signup(input1ref.current.value,input2ref.current.value,input3ref.current.value);
+            const data = res.json();
+            console.log(data);
+            navigate("/Home");
+        }catch(err){
+            console.err(err);
+            return;
+        }
     }
     function handleErrors(errors) {
         if (errors.name) {

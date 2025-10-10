@@ -42,7 +42,7 @@ export const AuthProvider = (props)=>{
         }
     }
 
-    const register = async (username,email,password)=>{
+    const signup = async (username,email,password)=>{
         try{
             const res = await signup(username,email,password);
             dispatch({type:"setUser",user:res});
