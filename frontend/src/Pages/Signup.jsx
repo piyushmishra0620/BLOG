@@ -79,9 +79,8 @@ const Signup = () => {
         buttonref.current.classList.add('bg-cyan-300');
         buttonref.current.classList.add('text-black');
         try{
-            const res = await signup(input1ref.current.value,input2ref.current.value,input3ref.current.value);
+            const res = await signup(input1ref.current.value.trim(),input2ref.current.value.trim(),input3ref.current.value.trim());
             const data = res.json();
-            console.log(data);
             navigate("/Home");
         }catch(err){
             console.err(err);
