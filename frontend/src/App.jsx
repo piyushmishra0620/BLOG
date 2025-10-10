@@ -6,11 +6,9 @@ import Landing from './Pages/landing';
 import Posts from './Pages/post';
 import Form from './Pages/form';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { BlogProvider } from './contexts/blogContext';
 
 function App() {
   return (
-    <BlogProvider>
       <Router>
         <Routes caseSensitive={true}>
           <Route path="/" element={<Navigate to="/Auth" replace={true} />} />
@@ -22,7 +20,6 @@ function App() {
           <Route path="/form" element={< Form />} />
         </Routes>
       </Router>
-    </BlogProvider>
   )
 }
 
