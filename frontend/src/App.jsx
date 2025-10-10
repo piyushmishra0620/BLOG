@@ -5,6 +5,8 @@ import Login from './Pages/Login';
 import Landing from './Pages/landing';
 import Posts from './Pages/post';
 import Form from './Pages/form';
+import Blog from './Pages/blog';
+
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
 function App() {
@@ -17,6 +19,7 @@ function App() {
           <Route path="/Auth" element={<Auth />} />
           <Route path="/Home" element={<Landing />} />
           <Route path="/posts" element={< Posts />} />
+          <Route path="/posts/:id" element={<Blog/>} />
           <Route path="/form" element={< Form />} />
         </Routes>
       </Router>

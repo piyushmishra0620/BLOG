@@ -6,6 +6,7 @@ import { loginSchema } from '../Schemas/loginSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import {motion,AnimatePresence} from 'framer-motion';
+import {useAuth} from '../Hooks/useAuth';
 
 const Login = () => {
     const [emailcorrect, setemailcorrect] = useState(false);
@@ -18,6 +19,7 @@ const Login = () => {
     const formref = useRef();
     const input1ref = useRef();
     const input2ref = useRef();
+    const {signin} = useAuth();
 
     useGSAP(() => {
         const tl = gsap.timeline();
@@ -57,14 +59,21 @@ const Login = () => {
             setpassworderror(false);
         }
     }
-    function clickHandler(e) {
+    async function clickHandler(e) {
         e.preventDefault();
         setemailerror(false);
         setpassworderror(false);
         buttonref.current.classList.remove('text-white');
         buttonref.current.classList.add('bg-cyan-300');
         buttonref.current.classList.add('text-black');
-        navigate("/Home");
+        try{
+            const res = await signin(input1ref.current.value.trim(),input2ref.current.value.trim());
+            const data = res.json();
+            navigate("/Home");
+        }catch(err){
+            console.error(err);
+            return;
+        }
     }
     function handleErrors(errors) {
         if (errors.name) {

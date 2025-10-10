@@ -83,7 +83,7 @@ const Signup = () => {
             const data = res.json();
             navigate("/Home");
         }catch(err){
-            console.err(err);
+            console.error(err);
             return;
         }
     }
