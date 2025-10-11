@@ -96,6 +96,7 @@ const Signup = () => {
             return;
         }
     }
+    
     function handleErrors(errors) {
         if (errors.name) {
             setnamerror(true);
@@ -115,6 +116,7 @@ const Signup = () => {
             setpassworderror(false);
         }
     }
+
     return (
         <div className="min-w-screen min-h-screen bg-linear-120 from-10% from-auth-left via-30% via-auth-right to-auth-left overflow-hidden">
             <div className="absolute top-0 left-0 max-500w:hidden w-screen min-h-fit  flex justify-start">
