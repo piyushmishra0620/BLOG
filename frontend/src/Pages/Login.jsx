@@ -86,11 +86,6 @@ const Login = () => {
     }
 
     function handleErrors(errors) {
-        if (errors.name) {
-            setnamerror(true);
-        } else {
-            setnamerror(false);
-        }
 
         if (errors.email) {
             setemailerror(true);
