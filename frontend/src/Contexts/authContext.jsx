@@ -50,7 +50,7 @@ export const AuthProvider = (props) => {
         }
     }
 
-    const signup = async (username, email, password) => {
+    const signUp = async (username, email, password) => {
         try {
             const res = await signup(username, email, password);
             if (res.message) {
@@ -80,7 +80,7 @@ export const AuthProvider = (props) => {
     }
 
     return (
-        <AuthContext.Provider value={{ state, signin, signup, signout }} >
+        <AuthContext.Provider value={{ state, signin, signUp, signout }} >
             {props.children}
         </AuthContext.Provider>
     )

@@ -22,7 +22,7 @@ const Signup = () => {
     const input3ref = useRef();
     const formref = useRef();
     const buttonref = useRef();
-    const { signup } = useAuth();
+    const { signUp } = useAuth();
 
     useGSAP(() => {
         const tl = gsap.timeline();
@@ -79,7 +79,7 @@ const Signup = () => {
         buttonref.current.classList.add('bg-cyan-300');
         buttonref.current.classList.add('text-black');
         try {
-            const res = await signup(input1ref.current.value.trim(), input2ref.current.value.trim(), input3ref.current.value.trim());
+            const res = await signUp(input1ref.current.value.trim(), input2ref.current.value.trim(), input3ref.current.value.trim());
             const data = await res.json();
             if (data.error) {
                 if (data.error == "User already exists with this emailid and password.") {
@@ -96,7 +96,7 @@ const Signup = () => {
             return;
         }
     }
-    
+
     function handleErrors(errors) {
         if (errors.name) {
             setnamerror(true);
