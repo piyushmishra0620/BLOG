@@ -19,7 +19,7 @@ function App() {
           <Route path="/Auth" element={<Auth />} />
           <Route path="/Home" element={<Landing />} />
           <Route path="/posts" element={< Posts />} />
-          <Route path="/posts/:id" element={<Blog/>} />
+          <Route path="/posts/:slug" element={<Blog/>} />
           <Route path="/form" element={< Form />} />
         </Routes>
       </Router>
