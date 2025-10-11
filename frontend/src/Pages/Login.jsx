@@ -5,8 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { loginSchema } from '../Schemas/loginSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import {motion,AnimatePresence} from 'framer-motion';
-import {useAuth} from '../Hooks/useAuth';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '../Hooks/useAuth';
 
 const Login = () => {
     const [emailcorrect, setemailcorrect] = useState(false);
@@ -19,7 +19,7 @@ const Login = () => {
     const formref = useRef();
     const input1ref = useRef();
     const input2ref = useRef();
-    const {signin} = useAuth();
+    const { signin } = useAuth();
 
     useGSAP(() => {
         const tl = gsap.timeline();
@@ -42,12 +42,8 @@ const Login = () => {
             setpasswordcorrect(true);
         }
     }
+
     function liveValidation() {
-        if (errors.name) {
-            setnamerror(true);
-        } else {
-            setnamerror(false);
-        }
         if (errors.email) {
             setemailerror(true);
         } else {
@@ -59,6 +55,7 @@ const Login = () => {
             setpassworderror(false);
         }
     }
+
     async function clickHandler(e) {
         e.preventDefault();
         setemailerror(false);
@@ -66,15 +63,28 @@ const Login = () => {
         buttonref.current.classList.remove('text-white');
         buttonref.current.classList.add('bg-cyan-300');
         buttonref.current.classList.add('text-black');
-        try{
-            const res = await signin(input1ref.current.value.trim(),input2ref.current.value.trim());
-            const data = res.json();
+        try {
+            const res = await signin(input1ref.current.value.trim(), input2ref.current.value.trim());
+            const data = await res.json();
+            if (data.error) {
+                if (data.error == "User doesnot exist with this emailid") {
+                    setemailerror(data.error); return;
+                }
+                else if (data.error == "Incorrect password provided.") {
+                    setpassworderror(data.error); return;
+                }
+                else if (data.error == "Internal server error occurred.") {
+                    alert(data.error); return;
+                }
+                else { alert("Some error occured , please try again later."); return; }
+            }
             navigate("/Home");
-        }catch(err){
+        } catch (err) {
             console.error(err);
             return;
         }
     }
+
     function handleErrors(errors) {
         if (errors.name) {
             setnamerror(true);
@@ -105,11 +115,15 @@ const Login = () => {
                     <form className="flex flex-col w-[470px] max-700w:w-[430px] max-600w:w-[370px] max-500w:w-[335px] max-400w:w-[280px] max-330w:w-[220px] z-2" onSubmit={handleSubmit(clickHandler, handleErrors)}>
                         <label htmlFor="emailid" className="text-white font-semibold text-[17.5px] w-fit h-fit justify-self-start mb-2 cursor-pointer z-10 pointer-events-auto">Email-Id : </label>
                         <input ref={input1ref} {...register("email")} id="emailid" type="email" className={(errors.email) ? "text-white rounded-[15px] border-1 border-red-600 shadow-button p-[10px] w-full z-10 pointer-events-auto outline-none" : (emailcorrect) ? "text-white rounded-[15px] border-1 border-green-400 shadow-button p-[10px] w-full z-10 pointer-events-auto outline-none" : "text-white rounded-[15px] border-1 border-white/20 shadow-button p-[10px] w-full z-10 pointer-events-auto"} placeholder="Enter the email..." onInput={emailinputChange} onBlur={liveValidation} /><AnimatePresence>
-                        {errors.email && emailerror &&  (<motion.p initial={{opacity:0,y:-15}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-15}} className="text-red-700 font-bold mt-2">{errors.email.message}</motion.p>)}</AnimatePresence>
+                            {errors.email && emailerror && (<motion.p initial={{ opacity: 0, y: -15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} className="text-red-700 font-bold mt-2">{errors.email.message}</motion.p>)}
+                            {(!errors.email) && emailerror && (<motion.p initial={{ opacity: 0, y: -15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} className="text-red-700 font-bold mt-2">{emailerror}</motion.p>)}
+                        </AnimatePresence>
                         <br />
                         <label htmlFor="password" className="text-white font-semibold text-[17.5px] w-fit h-fit justify-self-start mb-2 cursor-pointer z-10 pointer-events-auto">Password : </label>
                         <input ref={input2ref} {...register("password")} id="password" type="password" className={(errors.password) ? "text-white rounded-[15px] border-1 border-red-600 shadow-button p-[10px] w-full z-10 pointer-events-auto outline-none" : (passwordcorrect) ? "text-white rounded-[15px] border-1 border-green-400 shadow-button p-[10px] w-full z-10 pointer-events-auto outline-none" : "text-white rounded-[15px] border-1 border-white/20 shadow-button p-[10px] w-full z-10 pointer-events-auto"} placeholder="Enter the password..." onInput={passwordinputChange} onBlur={liveValidation} /><AnimatePresence>
-                        {errors.password && passworderror && (<motion.p initial={{opacity:0,y:-15}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-15}} className="text-red-700 font-bold mt-2">{errors.password.message}</motion.p>)}</AnimatePresence>
+                            {errors.password && passworderror && (<motion.p initial={{ opacity: 0, y: -15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} className="text-red-700 font-bold mt-2">{errors.password.message}</motion.p>)}
+                            {(!errors.password) && passworderror && (<motion.p initial={{ opacity: 0, y: -15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} className="text-red-700 font-bold mt-2">{passworderror}</motion.p>)}
+                        </AnimatePresence>
                         <br />
                         <button ref={buttonref} type="submit" className="text-white text-1xl font-sans font-semibold py-4 w-full rounded-[15px] mt-10 border-1 border-white/20 cursor-pointer shadow-button hover:bg-cyan-300 hover:text-black hover:font-semibold hover:text-1xl hover:font-sans hover:-translate-y-1 hover:shadow-cyan-400 hover:shadow-sm active:animate-click active:bg-cyan-300 duration-200 ease-in-out z-10 pointer-events-auto" >Login</button>
                     </form>

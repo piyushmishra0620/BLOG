@@ -5,8 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { signupSchema } from '../Schemas/signupSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import {motion,AnimatePresence} from 'framer-motion';
-import {useAuth} from '../Hooks/useAuth';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '../Hooks/useAuth';
 
 const Signup = () => {
     const [namecorrect, setnamecorrect] = useState(false);
@@ -22,7 +22,7 @@ const Signup = () => {
     const input3ref = useRef();
     const formref = useRef();
     const buttonref = useRef();
-    const {signup} = useAuth();
+    const { signup } = useAuth();
 
     useGSAP(() => {
         const tl = gsap.timeline();
@@ -78,11 +78,20 @@ const Signup = () => {
         buttonref.current.classList.remove('text-white');
         buttonref.current.classList.add('bg-cyan-300');
         buttonref.current.classList.add('text-black');
-        try{
-            const res = await signup(input1ref.current.value.trim(),input2ref.current.value.trim(),input3ref.current.value.trim());
-            const data = res.json();
+        try {
+            const res = await signup(input1ref.current.value.trim(), input2ref.current.value.trim(), input3ref.current.value.trim());
+            const data = await res.json();
+            if (data.error) {
+                if (data.error == "User already exists with this emailid and password.") {
+                    setemailerror(data.error);return;
+                } else if (data.error == "Internal server error.") {
+                    alert(data.error);return;
+                } else {
+                    alert("Some error occured , please try again later.");return;
+                }
+            }
             navigate("/Home");
-        }catch(err){
+        } catch (err) {
             console.error(err);
             return;
         }
@@ -113,18 +122,21 @@ const Signup = () => {
             </div>
             <div className="w-screen h-screen flex justify-center items-center">
                 <div ref={formref} className="bg-white1 backdrop-blur-[40px] rounded-[10px] p-[40px] max-500w:p-[27px] max-400w:p-[18px] max-330w:p-[12px] border-1 border-white/20 shadow-auth">
-                    <form className="flex flex-col w-[470px] max-700w:w-[430px] max-600w:w-[370px] max-500w:w-[335px] max-400w:w-[280px] max-330w:w-[220px] z-2" onSubmit={handleSubmit(clickHandler,handleErrors)}>
+                    <form className="flex flex-col w-[470px] max-700w:w-[430px] max-600w:w-[370px] max-500w:w-[335px] max-400w:w-[280px] max-330w:w-[220px] z-2" onSubmit={handleSubmit(clickHandler, handleErrors)}>
                         <label htmlFor="username" className="text-white font-semibold text-[17.5px] w-fit h-fit justify-self-start mb-2 cursor-pointer z-10 pointer-events-auto">UserName : </label>
                         <input ref={input1ref} {...register("name")} id="username" type="text" className={(errors.name) ? "text-white rounded-[15px] border-1 shadow-button p-[10px] w-full z-10 pointer-events-auto border-red-600 outline-none" : (namecorrect) ? "text-white rounded-[15px] border-1 shadow-button p-[10px] w-full z-10 pointer-events-auto border-green-400 outline-none" : "text-white rounded-[15px] border-1 shadow-button p-[10px] w-full z-10 pointer-events-auto border-white/20 outline-none"} placeholder="Enter the user-name..." onBlur={liveValidation} onInput={nameinputChange} /><AnimatePresence>
-                        {errors.name && namerror && (<motion.p initial={{opacity:0,y:-15}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-15}} transition={{type:"spring",stiffness:150,duration:0.02,velocity:80}} className="text-red-700 font-bold mt-2">{errors.name.message}</motion.p>)}</AnimatePresence>
+                            {errors.name && namerror && (<motion.p initial={{ opacity: 0, y: -15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} transition={{ type: "spring", stiffness: 150, duration: 0.02, velocity: 80 }} className="text-red-700 font-bold mt-2">{errors.name.message}</motion.p>)}
+                        </AnimatePresence>
                         <br />
                         <label htmlFor="emailid" className="text-white font-semibold text-[17.5px] w-fit h-fit justify-self-start mb-2 cursor-pointer z-10 pointer-events-auto">Email-Id : </label>
                         <input ref={input2ref} {...register("email")} id="emailid" type="email" className={(errors.email) ? "text-white rounded-[15px] border-1 border-red-600 shadow-button p-[10px] w-full z-10 pointer-events-auto outline-none" : (emailcorrect) ? "text-white rounded-[15px] border-1 border-green-400 shadow-button p-[10px] w-full z-10 pointer-events-auto outline-none" : "text-white rounded-[15px] border-1 border-white/20 shadow-button p-[10px] w-full z-10 pointer-events-auto outline-none"} placeholder="Enter the email..." onBlur={liveValidation} onInput={emailinputChange} /><AnimatePresence>
-                        {errors.email && emailerror && (<motion.p initial={{opacity:0,y:-15}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-15}} className="text-red-700 font-bold mt-2">{errors.email.message}</motion.p>)}</AnimatePresence>
+                            {errors.email && emailerror && (<motion.p initial={{ opacity: 0, y: -15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} className="text-red-700 font-bold mt-2">{errors.email.message}</motion.p>)}
+                            {(!errors.email) && emailerror && (<motion.p initial={{ opacity: 0, y: -15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} className="text-red-700 font-bold mt-2">{emailerror}</motion.p>)}
+                        </AnimatePresence>
                         <br />
                         <label htmlFor="password" className="text-white font-semibold text-[17.5px] w-fit h-fit justify-self-start mb-2 cursor-pointer z-10 pointer-events-auto">Password : </label>
                         <input ref={input3ref} {...register("password")} id="password" type="password" className={(errors.password) ? "text-white rounded-[15px] border-1 border-red-600 shadow-button p-[10px] w-full z-10 pointer-events-auto outline-none" : (passwordcorrect) ? "text-white rounded-[15px] border-1 border-green-400 shadow-button p-[10px] w-full z-10 pointer-events-auto outline-none" : "text-white rounded-[15px] border-1 border-white/20 shadow-button p-[10px] w-full z-10 pointer-events-auto outline-none"} placeholder="Enter the password..." onBlur={liveValidation} onInput={passwordinputChange} /><AnimatePresence>
-                        {errors.password && passworderror && (<motion.p initial={{opacity:0,y:-15}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-15}} className="text-red-700 font-bold mt-2">{errors.password.message}</motion.p>)}</AnimatePresence>
+                            {errors.password && passworderror && (<motion.p initial={{ opacity: 0, y: -15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} className="text-red-700 font-bold mt-2">{errors.password.message}</motion.p>)}</AnimatePresence>
                         <br />
                         <button ref={buttonref} type="submit" className="text-white text-1xl font-sans font-semibold py-4 w-full rounded-[15px] mt-10 border-1 border-white/20 cursor-pointer shadow-button hover:bg-cyan-300 hover:text-black hover:font-semibold hover:text-1xl hover:font-sans hover:-translate-y-1 hover:shadow-cyan-400 hover:shadow-sm active:animate-click active:bg-cyan-300 duration-200 ease-in-out z-10 pointer-events-auto">SignUp</button>
                     </form>

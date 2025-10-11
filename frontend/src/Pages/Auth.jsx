@@ -80,6 +80,8 @@ const Auth = () => {
                         </div>
                         <div className="flex flex-col justify-between items-center-safe w-full h-fit gap-2 z-20">
                             <button className="text-white text-1xl font-sans font-semibold py-4 w-full rounded-[15px] border-1 border-white/20 cursor-pointer shadow-button z-30">Continue With Google</button>
+                            <button className="text-white text-1xl font-sans font-semibold py-4 w-full rounded-[15px] border-1 border-white/20 cursor-pointer shadow-button z-30">Continue With GitHub</button>
+                            <button className="text-white text-1xl font-sans font-semibold py-4 w-full rounded-[15px] border-1 border-white/20 cursor-pointer shadow-button z-30">Continue With Apple</button>
                         </div>
                         <div className="absolute flex justify-start bottom-8 w-full h-fit">
                             <div className="bg-radial-[at_30%_50%] from-cyan-200 from-5% via-cyan-500 via-45% to-cyan-950 to-100% scale-150 p-12 rounded-full blur-[50px] 500w:p-10"></div>

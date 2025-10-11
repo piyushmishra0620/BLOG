@@ -7,7 +7,7 @@ const signup = async (req, res) => {
         const { username, email, password } = req.body;
         const existinguser = await users.findOne({ emailid: email });
         if (existinguser) {
-            return res.status(400).json({ error: "User already exists with this emailid and password." });
+            return res.status(401).json({ error: "User already exists with this emailid and password." });
         }
         const salt = await bcrypt.genSalt(12);
         const hashedpassword = await bcrypt.hash(password, salt);
@@ -78,6 +78,7 @@ const login = async (req, res) => {
             expires: new Date(Date.now() + 12 * 365 * 24 * 60 * 60),
             secure: process.env.NODE_ENV === "production"
         });
+        return res.status(200).json({message:"User logged in successfully."});
     } catch (err) {
         console.error(err);
         return res.status(500).json({ error: "Internal server error occurred." });
