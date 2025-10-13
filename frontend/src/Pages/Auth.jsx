@@ -24,7 +24,7 @@ const Auth = () => {
         onSuccess: async (Response) => {
             let code = Response.code;
 
-            const res = await fetch(`${backendURI}/google/auth`, {
+            const res = await fetch(`${backendURI}/auth/google`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
