@@ -23,7 +23,7 @@ function App() {
           <Route path="/form" element={< Form />} />
         </Routes>
       </Router>
-  )
-}
+  );
+};
 
 export default App;

@@ -1,18 +1,56 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
 import { SplitText } from 'gsap/SplitText';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useGoogleLogin } from '@react-oauth/google';
+import { motion, AnimatePresence } from 'framer-motion';
 
 gsap.registerPlugin(SplitText);
+const backendURI = import.meta.env.VITE_BACKEND_URI;
 
 const Auth = () => {
     const navigate = useNavigate();
     const button1Ref = useRef();
     const button2Ref = useRef();
+    const googleButton = useRef();
     const headingRef = useRef();
     const paragraphRef = useRef();
     const formRef = useRef();
+    const [googleError, setgoogleError] = useState("");
+
+    const googleLogin = useGoogleLogin({
+        flow: 'auth-code',
+        onSuccess: async (Response) => {
+            let code = Response.code;
+
+            const res = await fetch(`${backendURI}/google/auth`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "include",
+                body: JSON.stringify({ code })
+            });
+            const data = await res.json();
+            if (data.error) {
+                setgoogleError(data.error);
+            } else {
+                navigate("/Home");
+            }
+        },
+        onError: (error) => {
+            setgoogleError(error);
+            console.error(error);
+        }
+    });
+
+    const googleButtonClickHandler = () => {
+        googleButton.current.classList.remove('text-white');
+        googleButton.current.classList.add('bg-cyan-300');
+        googleButton.current.classList.add('text-black');
+        setTimeout(() => { googleLogin(); }, 100);
+    }
 
 
 
@@ -38,7 +76,7 @@ const Auth = () => {
             char.style.background = headingRef.current.style.background;
         });
         const tl = gsap.timeline();
-        tl.fromTo(headings.chars, { opacity:0,y: -50,scale:2 }, { scale:1,opacity:1,y: 0, stagger: 0.2, ease: "bounce.out" })
+        tl.fromTo(headings.chars, { opacity: 0, y: -50, scale: 2 }, { scale: 1, opacity: 1, y: 0, stagger: 0.2, ease: "bounce.out" })
             .fromTo(paragraphs.chars, { opacity: 0 }, { opacity: 1, stagger: 0.03, ease: "power3.inOut" })
             .fromTo(formRef.current, { scale: 0 }, { scale: 1, ease: "bounce.out", duration: 1 });
     });
@@ -47,14 +85,14 @@ const Auth = () => {
         button1Ref.current.classList.remove('text-white');
         button1Ref.current.classList.add('bg-cyan-300');
         button1Ref.current.classList.add('text-black');
-        setTimeout(()=>navigate("/Signup"),200);
+        setTimeout(() => navigate("/Signup"), 200);
     }
 
     function handleButton2Click() {
         button2Ref.current.classList.remove('text-white');
         button2Ref.current.classList.add('bg-cyan-300');
         button2Ref.current.classList.add('text-black');
-        setTimeout(()=>navigate("/Login"),200);
+        setTimeout(() => navigate("/Login"), 200);
     }
 
     return (
@@ -79,7 +117,8 @@ const Auth = () => {
                             <span className="bg-white w-full p-[0.2px] h-[0.2px] ms-1.5"></span>
                         </div>
                         <div className="flex flex-col justify-between items-center-safe w-full h-fit gap-2 z-20">
-                            <button className="text-white text-1xl font-sans font-semibold py-4 w-full rounded-[15px] border-1 border-white/20 cursor-pointer shadow-button z-30">Continue With Google</button>
+                            <button ref={googleButton} className="text-white text-1xl font-sans font-semibold py-4 w-full rounded-[15px] border-1 border-white/20 cursor-pointer shadow-button z-30" onClick={() => googleButtonClickHandler()}>Continue With Google</button>
+                            <AnimatePresence>{googleError && <motion.p initial={{ opacity: 0, y: -15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} className="text-red-700 font-bold mt-2">{googleError}</motion.p>}</AnimatePresence>
                             <button className="text-white text-1xl font-sans font-semibold py-4 w-full rounded-[15px] border-1 border-white/20 cursor-pointer shadow-button z-30">Continue With GitHub</button>
                             <button className="text-white text-1xl font-sans font-semibold py-4 w-full rounded-[15px] border-1 border-white/20 cursor-pointer shadow-button z-30">Continue With Apple</button>
                         </div>
