@@ -6,7 +6,6 @@ import Landing from './Pages/landing';
 import Posts from './Pages/post';
 import Form from './Pages/form';
 import Blog from './Pages/blog';
-
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
 function App() {
