@@ -4,16 +4,16 @@ import './index.css';
 import App from './App.jsx';
 import { BlogProvider } from './Contexts/blogContext.jsx';
 import { AuthProvider } from './Contexts/authContext.jsx';
-import { GoogleOauthProvider } from '@react-oauth/google';
+import {GoogleOAuthProvider} from '@react-oauth/google';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>
-      <GoogleOauthProvider clientId={import.meta.env.VITE_clientId}>
+      <GoogleOAuthProvider clientId={import.meta.env.VITE_clientId}>
         <BlogProvider>
           <App />
         </BlogProvider>
-      </GoogleOauthProvider>
+      </GoogleOAuthProvider>
     </AuthProvider>
   </StrictMode>,
 )

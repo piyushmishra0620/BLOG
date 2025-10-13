@@ -40,7 +40,7 @@ const Auth = () => {
             }
         },
         onError: (error) => {
-            setgoogleError(error);
+            setgoogleError("Google Login Failed.");
             console.error(error);
         }
     });
@@ -51,8 +51,6 @@ const Auth = () => {
         googleButton.current.classList.add('text-black');
         setTimeout(() => { googleLogin(); }, 100);
     }
-
-
 
     useGSAP(() => {
         let headings = SplitText.create(headingRef.current, {
