@@ -146,9 +146,9 @@ const googleLogin = async (req, res) => {
         console.log(user);
         const existinguser = await googleUsers.findOne({emailid: user.email});
         if (!existinguser) {
-            const createUser = await googleUsers.create({ username: user.name, emailid: user.email, image:user.image});
+            const createUser = await googleUsers.create({ username: user.name, emailid: user.email, image:user.picture});
         }
-        const JWTtoken = jwt.sign({ id: user.sub, username: user.name, email: user.email, image: user.image }, process.env.JWT_SECRET);
+        const JWTtoken = jwt.sign({ id: user.sub, username: user.name, email: user.email, image: user.picture }, process.env.JWT_SECRET);
         res.cookie("token", JWTtoken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
