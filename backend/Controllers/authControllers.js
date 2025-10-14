@@ -143,6 +143,7 @@ const googleLogin = async (req, res) => {
             method: "GET"
         });
         const user = userInfo.data;
+        console.log(user);
         const existinguser = await googleUsers.findOne({emailid: user.email});
         if (!existinguser) {
             const createUser = await googleUsers.create({ username: user.name, emailid: user.email, image:user.image});
