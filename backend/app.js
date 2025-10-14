@@ -6,7 +6,7 @@ const authroutes = require('./Routes/authRoutes');
 
 server.use(app.urlencoded({extended:true}));
 server.use(app.json());
-server.use(cors);
+server.use(cors());
 server.use(cookieparser());
 
 server.use('/auth',authroutes);

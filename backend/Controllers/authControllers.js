@@ -3,8 +3,8 @@ const bcrypt = require('bcryptjs');
 const { users } = require('../Models/users');
 const {googleUsers} = require('../Models/googleusers');
 const { Oauth2Client } = require('google-auth-library');
-const clientId = process.env.clientId;
-const clientSecret = process.env.clientSecret;
+const clientId = process.env.CLIENT_ID;
+const clientSecret = process.env.CLIENT_SECRET ;
 
 const signup = async (req, res) => {
     try {
@@ -132,7 +132,7 @@ const googleLogin = async (req, res) => {
     try {
         const { code } = req.body;
         const client = new Oauth2Client({
-            clientid: clientId,
+            clientId: clientId,
             clientSecret: clientSecret,
             redirectUri: 'https://blogify-v7i5.onrender.com/auth/google'
         });
@@ -151,21 +151,21 @@ const googleLogin = async (req, res) => {
         res.cookie("token", JWTtoken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
+            sameSite: "none",
             maxAge: 12 * 365 * 24 * 60 * 60,
             expires: new Date(Date.now() + 12 * 365 * 24 * 60 * 60)
         });
         res.cookie("token", JWTtoken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
+            sameSite: "none",
             maxAge: 12 * 365 * 24 * 60 * 60,
             expires: new Date(Date.now() + 12 * 365 * 24 * 60 * 60)
         });
         res.cookie("token", JWTtoken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
+            sameSite: "none",
             maxAge: 12 * 365 * 24 * 60 * 60,
             expires: new Date(Date.now() + 12 * 365 * 24 * 60 * 60)
         });
