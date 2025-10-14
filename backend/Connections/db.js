@@ -10,4 +10,4 @@ const connectoDB = async ()=>{
     }
 }
 
-exports.connectoDB = {connectoDB} 
+exports.connectoDB = connectoDB; 
