@@ -42,7 +42,7 @@ const arr = [
         "id":7,
         "name": "Neha Reddy",
         "content": "Building a full-stack app may seem intimidating, but once you understand the flow — frontend → backend → database → deployment — it becomes an exciting journey. Start with the frontend using HTML, CSS, and JavaScript. Then use Express.js to handle server routes and API logic. Store user data with PostgreSQL or MongoDB, depending on your preference. Finally, deploy your app on platforms like Render or Vercel. Seeing your first project live is one of the most rewarding feelings as a developer. Every great app begins as a small idea. Start building today — even if it’s simple.",
-        "heading": "Building Your First Full - Stack App: A Step - by - Step Guide"
+        "heading": "Building Your First Full Stack App: A Detailed Guide"
     },
     {
         "id":8,
