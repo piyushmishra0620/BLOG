@@ -32,6 +32,7 @@ const Auth = () => {
                 credentials: "include",
                 body: JSON.stringify({ code })
             });
+            
             const data = await res.json();
             if (data.error) {
                 setgoogleError(data.error);
