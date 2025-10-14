@@ -9,4 +9,4 @@ app.post("/logout",logout);
 app.get("/protected",protected,getuser);
 app.post("/google",googleLogin);
 
-module.exports = server;
+module.exports = app;
