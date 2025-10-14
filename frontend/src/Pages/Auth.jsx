@@ -116,7 +116,7 @@ const Auth = () => {
                             <span className="bg-white w-full p-[0.2px] h-[0.2px] ms-1.5"></span>
                         </div>
                         <div className="flex flex-col justify-between items-center-safe w-full h-fit gap-2 z-20">
-                            <AnimatePresence>{googleError && <motion.p initial={{ opacity: 0, y: -15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} className="text-red-700 font-bold mt-2">{googleError}</motion.p>}</AnimatePresence>
+                            <AnimatePresence>{googleError && <motion.p initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 15 }} className="text-red-700 font-bold mt-2">{googleError}</motion.p>}</AnimatePresence>
                             <button ref={googleButton} className="text-white text-1xl font-sans font-semibold py-4 w-full rounded-[15px] border-1 border-white/20 cursor-pointer shadow-button hover:bg-cyan-300 hover:text-black hover:font-semibold hover:text-1xl hover:font-sans hover:-translate-y-1 hover:shadow-cyan-400 hover:shadow-sm  active:animate-click active:bg-cyan-300 duration-200 ease-in-out z-[130]" onClick={() => googleButtonClickHandler()}>Continue With Google</button>
                             <button className="text-white text-1xl font-sans font-semibold py-4 w-full rounded-[15px] border-1 border-white/20 cursor-pointer shadow-button z-[130]">Continue With GitHub</button>
                             <button className="text-white text-1xl font-sans font-semibold py-4 w-full rounded-[15px] border-1 border-white/20 cursor-pointer shadow-button z-[130]">Continue With Apple</button>

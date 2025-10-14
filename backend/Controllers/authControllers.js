@@ -136,8 +136,8 @@ const googleLogin = async (req, res) => {
             clientSecret: clientSecret,
             redirectUri: 'postmessage'
         });
-        const { token } = await client.getToken(code);
-        client.setCredentials(token);
+        const { tokens } = await client.getToken(code);
+        client.setCredentials(tokens);
         const userInfo = await client.request({
             url: "https://www.googleapis.com/oauth2/v3/userinfo",
             method: "GET"
