@@ -156,6 +156,7 @@ const googleLogin = async (req, res) => {
             expires: new Date(Date.now() + 12 * 365 * 24 * 60 * 60)
         });
         res.cookie("token", JWTtoken, {
+            domain:"vercel.app",
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
             sameSite: "none",
@@ -163,6 +164,7 @@ const googleLogin = async (req, res) => {
             expires: new Date(Date.now() + 12 * 365 * 24 * 60 * 60)
         });
         res.cookie("token", JWTtoken, {
+            domain:"netlify.app",
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
             sameSite: "none",
