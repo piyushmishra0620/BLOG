@@ -134,7 +134,7 @@ const googleLogin = async (req, res) => {
         const client = new Oauth2Client({
             clientId: clientId,
             clientSecret: clientSecret,
-            redirectUri: 'https://blogify-v7i5.onrender.com/auth/google'
+            redirectUri: 'postmessage'
         });
         const { token } = await client.getToken(code);
         client.setCredentials(token);
