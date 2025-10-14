@@ -1,14 +1,14 @@
-const app = require('express');
-const server = app();
+const express = require('express');
+const app = express();
 const cors = require('cors');
 const cookieparser = require('cookie-parser');
 const authroutes = require('./Routes/authRoutes');
 
-server.use(app.urlencoded({extended:true}));
-server.use(app.json());
-server.use(cors());
-server.use(cookieparser());
+app.use(express.urlencoded({extended:true}));
+app.use(express.json());
+app.use(cors());
+app.use(cookieparser());
 
-server.use('/auth',authroutes);
+app.use('/auth',authroutes);
 
-module.exports=server;
+module.exports=app;
