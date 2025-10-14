@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { users } = require('../Models/users');
 const {googleUsers} = require('../Models/googleusers');
-const { Oauth2Client } = require('google-auth-library');
+const { OAuth2Client} = require('google-auth-library');
 const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET ;
 
@@ -131,7 +131,7 @@ const getuser = (req, res) => {
 const googleLogin = async (req, res) => {
     try {
         const { code } = req.body;
-        const client = new Oauth2Client({
+        const client = new OAuth2Client({
             clientId: clientId,
             clientSecret: clientSecret,
             redirectUri: 'postmessage'
