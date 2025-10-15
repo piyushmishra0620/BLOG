@@ -6,6 +6,7 @@ import Landing from './Pages/landing';
 import Posts from './Pages/post';
 import Form from './Pages/form';
 import Blog from './Pages/blog';
+import ProtectedRoute from  './Components/protectedRoute';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
 function App() {
@@ -16,10 +17,10 @@ function App() {
           <Route path="/Signup" element={<Signup />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/Auth" element={<Auth />} />
-          <Route path="/Home" element={<Landing />} />
-          <Route path="/posts" element={< Posts />} />
-          <Route path="/posts/:slug" element={<Blog/>} />
-          <Route path="/form" element={< Form />} />
+          <Route path="/Home" element={<ProtectedRoute><Landing/></ProtectedRoute>} />
+          <Route path="/posts" element={<ProtectedRoute><Posts/></ProtectedRoute>} />
+          <Route path="/posts/:slug" element={<ProtectedRoute><Blog/></ProtectedRoute>} />
+          <Route path="/form" element={<ProtectedRoute><Form/></ProtectedRoute>} />
         </Routes>
       </Router>
   );
