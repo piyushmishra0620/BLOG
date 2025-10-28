@@ -40,7 +40,7 @@ const signup = async (req, res) => {
             expires: new Date(Date.now() + 12 * 365 * 24 * 60 * 60),
             secure: process.env.NODE_ENV === "production"
         });
-        return res.status(200).json({ message: "User signup successfully." });
+        return res.status(200).json({user: user });
     } catch (err) {
         console.error(err);
         return res.status(500).json({ error: "Internal server error." });
@@ -82,7 +82,7 @@ const login = async (req, res) => {
             expires: new Date(Date.now() + 12 * 365 * 24 * 60 * 60),
             secure: process.env.NODE_ENV === "production"
         });
-        return res.status(200).json({ message: "User logged in successfully." });
+        return res.status(200).json({ user: existinguser });
     } catch (err) {
         console.error(err);
         return res.status(500).json({ error: "Internal server error occurred." });

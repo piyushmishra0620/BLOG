@@ -36,7 +36,7 @@ export const AuthProvider = (props) => {
             const res = await login(email, password);
 
             if (res.message) {
-                dispatch({ type: "setUser", user: res });
+                dispatch({ type: "setUser", user: res.user });
                 dispatch({ type: "setLoading", load: false });
                 dispatch({ type: "setAuthenticated", authenticate: true });
             } else {
@@ -54,7 +54,7 @@ export const AuthProvider = (props) => {
         try {
             const res = await signup(username, email, password);
             if (res.message) {
-                dispatch({ type: "setUser", user: res });
+                dispatch({ type: "setUser", user: res.user });
                 dispatch({ type: "setLoading", load: false });
                 dispatch({ type: "setAuthenticated", authenticate: true });
             }else{
