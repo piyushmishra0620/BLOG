@@ -3,6 +3,8 @@ import { signup, login, logout, getUser } from '../Services/authapi';
 
 const AuthContext = createContext();
 
+const backendURI = import.meta.env.VITE_BACKEND_URI;
+
 function reducer(state, action) {
     switch (action.type) {
         case "setUser":
@@ -68,6 +70,31 @@ export const AuthProvider = (props) => {
         }
     }
 
+    const gLogin = async (code)=>{
+        try{
+            const res = await fetch(`${backendURI}/auth/google`,{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({code})
+            });
+            const data = await res.json();
+            if(data.message){
+                dispatch({type:"setUser",user:data.user});
+                dispatch({type:"setLoading",load:true});
+                dispatch({type:"setAuthenticated",authenticate:true});
+            }else{
+                dispatch({type:"setUser",user:""});
+                dispatch({type:"setLoading",load:true});
+                dispatch({type:"setAuthenticated",authenticate: false});
+            }
+            return data;
+        }catch(err){
+            console.error(err);
+            return {error:err.message}
+        }
+    }
     const signout = async () => {
         try {
             const res = await logout();
@@ -80,7 +107,7 @@ export const AuthProvider = (props) => {
     }
 
     return (
-        <AuthContext.Provider value={{ state, signin, signUp, signout }} >
+        <AuthContext.Provider value={{ state, signin, signUp, signout , gLogin }} >
             {props.children}
         </AuthContext.Provider>
     )

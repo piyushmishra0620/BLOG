@@ -5,11 +5,12 @@ import { SplitText } from 'gsap/SplitText';
 import { useNavigate } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
 import { motion, AnimatePresence } from 'framer-motion';
+import {useAuth} from '../Hooks/useAuth';
 
 gsap.registerPlugin(SplitText);
 const backendURI = import.meta.env.VITE_BACKEND_URI;
-
 const Auth = () => {
+    const {gLogin} = useAuth();
     const navigate = useNavigate();
     const button1Ref = useRef();
     const button2Ref = useRef();
@@ -24,14 +25,7 @@ const Auth = () => {
         onSuccess: async (Response) => {
             let code = Response.code;
 
-            const res = await fetch(`${backendURI}/auth/google`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                credentials: "include",
-                body: JSON.stringify({ code })
-            });
+            const res = await gLogin(code);
 
             const data = await res.json();
             if (data.error) {
